@@ -2,12 +2,12 @@ return {
     'nvim-telescope/telescope.nvim', version = '*',
     dependencies = {
         'nvim-lua/plenary.nvim',
-        -- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-        { 'nvim-mini/mini.icons', version = '*' },
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        -- { 'nvim-mini/mini.icons', version = '*' },
+        -- "https://github.com/nvim-tree/nvim-web-devicons"
     },
 
     config = function()
-        require('mini.icons').setup()
 
         local actions = require("telescope.actions")
         local action_layout = require("telescope.actions.layout")
@@ -34,6 +34,9 @@ return {
         -- require('telescope').load_extension('fzf')
         require("telescope").load_extension('harpoon')
 
+        -- require("nvim-web-devicons").setup({})
+        -- require('mini.icons').setup()
+        -- require('mini.icons').mock_nvim_web_devicons()
 
         local builtin = require("telescope.builtin")
         local themes = require("telescope.themes")
@@ -87,6 +90,15 @@ return {
 
 
         end)
+
+
+        vim.keymap.set("n", "<C-f>", function()
+            local opts = {
+                previewer = false,
+                hidden = true,
+            }
+            require("telescope").extensions.harpoon.marks(themes.get_dropdown(opts))
+        end, { desc = "Open Harpoon marks with custom layout" })
 
 
         require("issacnewtown.telescope.multigrep").setup()
